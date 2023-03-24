@@ -36,7 +36,7 @@ export function ProfileView(props) {
           console.log(response.data);
           localStorage.removeItem('token');
           localStorage.removeItem('user');
-          window.open('/mybooks', '_self');
+          window.open('/', '_self');
         }).catch(function (error) {
             console.log(error);
         });

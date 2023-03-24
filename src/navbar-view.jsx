@@ -5,7 +5,7 @@ export function NavbarView({user}) {
   const onLoggedOut = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    window.open('/mybooks', '_self');
+    window.open('/', '_self');
   }
 
   const isAuth = () => {
@@ -22,7 +22,7 @@ export function NavbarView({user}) {
   return (
     <Navbar className="navigation-bar" sticky="top">
       <Container>
-        <Navbar.Brand className="navbar-logo" href="/mybooks">MyBooks</Navbar.Brand>
+        <Navbar.Brand className="navbar-logo" href="/">MyBooks</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ml-auto">
@@ -33,7 +33,7 @@ export function NavbarView({user}) {
               <Button variant="link" id="logout" onClick={onLoggedOut}>Logout</Button>
             )}
             {!isAuth() && (
-              <Nav.Link id="sign-in" href="/mybooks">Sign In</Nav.Link>
+              <Nav.Link id="sign-in" href="/">Sign In</Nav.Link>
             )}
             {!isAuth() && (
               <Nav.Link id="sign-up" href={'/register'}>Sign Up</Nav.Link>
