@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import axios from 'axios';
 import { Form, Button, Card, CardGroup, Container, Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
@@ -7,23 +6,17 @@ import { Link } from 'react-router-dom';
 export function LoginView(props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [usernameErr, setUsernameErr] = useState('');
-  const [passwordErr, setPasswordErr] = useState('');
 
   const validate = () => {
     let isReq = true;
     if (!username) {
-      setUsernameErr('Username Required');
       isReq = false;
     } else if (username.length < 2) {
-      setUsernameErr('Username must be 2 characters long');
       isReq = false;
     }
     if (!password) {
-      setPasswordErr('Password Required');
       isReq = false;
     } else if (password.length < 6) {
-      setPassword('Password must be 6 characters long');
       isReq = false;
     }
 
@@ -41,9 +34,9 @@ export function LoginView(props) {
       }).then(response => {
         const data = response.data;
         props.onLoggedIn(data);
-        console.log(data);
       }).catch(e => {
         console.log('User does not exist');
+        alert('Username or password is incorrect');
       });
     }
   };
@@ -53,38 +46,37 @@ export function LoginView(props) {
       <Row>
         <Col>
           <CardGroup>
-            <Card>
-              <Card.Body className="login-card">
-                <Card.Title>Login</Card.Title>
+            <Card id="login-card">
+              <Card.Body>
+                <Card.Title className="login-title">Login</Card.Title>
                 <Form>
-                  <Form.Group controlId="formUsername">
+                  <Form.Group id="form-group" controlId="formUsername">
                     <Form.Label>Username:</Form.Label>
                     <Form.Control
                       type="text"
+                      className="user-input"
                       value={username}
                       onChange={e => setUsername(e.target.value)}
                       placeholder="Enter your username."
                     />
-                    {/* code added here to display validation error */}
-                    {usernameErr && <p>{usernameErr}</p>}
                   </Form.Group>
 
-                  <Form.Group controlId="formPasswrod">
+                  <Form.Group id="form-group" controlId="formPasswrod">
                     <Form.Label>Password:</Form.Label>
                     <Form.Control
                       type="password"
+                      className="user-input"
                       value={password}
                       onChange={e => setPassword(e.target.value)}
                       placeholder="Enter your password."
                     />
-                    {/* code added here to display validation error */}
-                    {passwordErr && <p>{passwordErr}</p>}
                   </Form.Group>
-                  <Button variant="primary" type="submit" id="login-btn" onClick={handleSubmit}>Log In</Button>
 
                   <Link to={"/register"}>
-                    <Button variant="primary" type="submit" id="register-btn">New User?</Button>
+                    <Button variant="primary" type="submit" id="register-btn">Sign Up</Button>
                   </Link>
+
+                  <Button variant="primary" type="submit" id="login-btn" onClick={handleSubmit}>Log In</Button>
                 </Form>
               </Card.Body>
             </Card>
