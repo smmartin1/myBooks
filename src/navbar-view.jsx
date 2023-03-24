@@ -5,7 +5,7 @@ export function NavbarView({user}) {
   const onLoggedOut = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    window.open('/', '_self');
+    window.open('/mybooks', '_self');
   }
 
   const isAuth = () => {
