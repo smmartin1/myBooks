@@ -8,36 +8,43 @@ export function RegistrationView(props) {
   const [ password, setPassword ] = useState('');
   const [ email, setEmail ] = useState('');
   const [ birthday, setBirthday ] = useState('');
-  const [ values, setValues ] = useState({
-    nameErr: '',
-    usernameErr: '',
-    passwordErr: '',
-    emailErr: ''
-  });
+  const [ usernameErr, setUsernameErr ] = useState('');
+  const [ passwordErr, setPasswordErr ] = useState('');
+  const [ emailErr, setEmailErr ] = useState('');
 
   const validate = () => {
     let isReq = true;
+
     if(!username){
-     //setUsernameErr('Username Required');
+     setUsernameErr('Username Required');
      isReq = false;
-    }else if(username.length < 2){
-     //setUsernameErr('Username must be 2 characters long');
+     alert(usernameErr);
+    } else if(username.length < 2) {
+     setUsernameErr('Username must be 2 characters long');
      isReq = false;
+     alert(usernameErr);
     }
+
     if(!password){
-     //setPasswordErr('Password Required');
+     setPasswordErr('Password Required');
      isReq = false;
-    }else if(password.length < 6){
-     //setPasswordErr('Password must be 6 characters long');
+     alert(passwordErr);
+    } else if(password.length < 6) {
+     setPasswordErr('Password must be 6 characters long');
      isReq = false;
+     alert(passwordErr);
     }
+
     if(!email) {
-      //setEmailErr('Email is Required');
+      setEmailErr('Email is Required');
       isReq = false;
-    }else if(email.indexOf('@') === -1) {
-      //setEmailErr('Must have a valid email');
+      alert(emailErr)
+    } else if(email.indexOf('@') === -1) {
+      setEmailErr('Must have a valid email');
       isReq = false;
+      alert(emailErr)
     }
+
     return isReq;
   }
 
@@ -57,7 +64,7 @@ export function RegistrationView(props) {
         alert('Welcome to myBooks!');
         window.open('/', '_self');
       }).catch(e => {
-        console.log('error registering the user')
+        console.log('Error registering the user')
       });
     }
   };
