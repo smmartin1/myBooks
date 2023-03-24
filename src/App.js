@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { Container, Row, Col } from 'react-bootstrap';
 
 import { LoginView } from './login-view';
 import { RegistrationView } from './registration-view';
 import { BookView } from './book-view';
 import { BookCard } from './book-card';
+import { AuthorView } from './author-view';
+import { NavbarView } from './navbar-view';
+import { ProfileView } from './profile-view';
 
 import './App.css';
 
@@ -13,50 +18,99 @@ class App extends Component {
     super();
     this.state = {
       books: [],
-      selectedBook: null,
-      user: null,
-      register: null
+      user: null
     };
   }
 
-  componentDidMount(){
-    axios.get('https://mighty-falls-90534.herokuapp.com/books').then(response => {
-        this.setState({ books: response.data });
-      }).catch(error => {
-          console.log(error);
-      });
+  componentDidMount() {
+    let accessToken = localStorage.getItem('token');
+    if (accessToken != null) {
+        this.setState({ user: localStorage.getItem('user')});
+        this.getBooks(accessToken);
+    }
   }
 
-  setSelectedBook(book) {
-    this.setState({ selectedBook: book });
-  }
+  onLoggedIn(authData) {
+    //console.log(authData);
+    this.setState({ user: authData.users.Username });
 
-  onLoggedIn(user) {
-    this.setState({ user });
+    console.log(authData.users.Username);
+
+    localStorage.setItem('token', authData.token);
+    localStorage.setItem('user', authData.users.Username);
+    this.getBooks(authData.token);
   }
 
   onRegister(register) {
       this.setState({ register });
   }
 
+  getBooks(token) {
+    axios.get('https://mighty-falls-90534.herokuapp.com/books', {
+        headers: { Authorization: 'Bearer ' + token }
+    }).then(response => {
+        this.setState({ books: response.data });
+    }).catch(error => {
+        console.log(error);
+    });
+}
+
   render() {
-    const { books, selectedBook, user, register } = this.state;
-
-    if (register) return <RegistrationView onRegister={(bool) => this.onRegister(bool)} />;
-
-    if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
-
-    if (books.length === 0) return <div className='main-view'>The list is empty</div>;
+    const { books, user } = this.state;
 
     return (
-        <div className='main-view'>
-            {selectedBook
-                ? <BookView book={selectedBook} onBackClick={ newSelectedBook => {this.setSelectedBook(newSelectedBook);} }/>
-                : books.map(book => (
-                    <BookCard key={book._id} book={book} onBookClick={ (book) => {this.setSelectedBook(book)} }/>
-                ))
-            }
-        </div>
+      <Container>
+        <Router>
+          <NavbarView user={ user } />
+
+          <Row className="main-view justify-content-md-center">
+            <Route exact path="/" render={() => {
+              if (!user) return <Col md={5}><LoginView onLoggedIn={user => this.onLoggedIn(user)} /></Col>
+
+              if (books.length === 0) return <div className="main-view"/>
+
+              return books.map(b => (
+                <Col md={3} key={b._id}>
+                    <BookCard book={b} />
+                </Col>
+              ))
+            }}/>
+
+            <Route path="/register" render={() => {
+              if (user) return <Redirect to="/" />
+              return <Col md={6}>
+                <RegistrationView />
+              </Col>
+            }} />
+
+            <Route path="/books/:bookID" render={({ match, history }) => {
+                return <Col md={8}>
+                    <BookView book={books.find((b) => b._id === match.params.bookID)} onBackClick={() => history.goBack()} />
+                </Col>
+            }} />
+
+            <Route path="/authors/:Name" render={({match, history }) => {
+              if (books.length === 0) return <div className="main-view" />
+              return <Col md={8}>
+                  <AuthorView 
+                      author={books.find((b) => b.Author.Name === match.params.Name).Author}
+                      onBackClick={() => history.goBack()}
+                  />
+              </Col>
+            }} />
+
+            <Route path={`/users/${user}`} render={({ history }) => {
+              return <Col>
+                  <ProfileView
+                      user={user}
+                      book={books}
+                      onBackClick={() => history.goBack()}
+                  />
+              </Col>
+            }} />
+          </Row>
+        </Router>
+      </Container>
     )
   }
 }
