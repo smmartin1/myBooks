@@ -64,7 +64,7 @@ class App extends Component {
           <NavbarView user={ user } />
 
           <Row className="main-view justify-content-md-center">
-            <Route exact path="/" render={() => {
+            <Route exact path="/mybooks" render={() => {
               if (!user) return <Col md={5}><LoginView onLoggedIn={user => this.onLoggedIn(user)} /></Col>
 
               if (books.length === 0) return <div className="main-view"/>
