@@ -18,7 +18,7 @@ export function UpdateUser({ user }) {
         }).then((response) => {
             alert('Profile has been updated');
             localStorage.setItem('user', response.data.Username);
-            window.open('/', '_self');
+            window.open('/mybooks', '_self');
         }).catch(function (error) {
             console.log(error);
         });
