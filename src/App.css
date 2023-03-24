@@ -1,38 +1,193 @@
-.App {
-  text-align: center;
+@charset "UTF-8";
+
+/* CSS Document */
+
+:root {
+  /* Colors */
+  --navbar: #A59DE0;
+  --card: #C2BBFC;
+  --button-primary: #8D85CC;
+  --button-secondary: #7B70CC;
+  --input-field: #EBEDFC;
+  --shadow: 10px 10px 10px #7B70CC;
+  --link: #333;
+
+  /* Texts */
+  --alignment: center;
+  --decoration: underline;
+
+  /* Image */
+  --img-width: 250px;
+
+  /* Margin */
+  --margin-placement: 10px 0 20px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+h2 {
+  font-size: 28px;
+  margin: var(--margin-placement);
+  text-align: var(--alignment);
+  text-decoration: var(--decoration);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* Author View */
+.author-img {
+  width: var(--img-width);
+  float: right;
+  margin-left: 30px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+#author-button { background-color: var(--button-primary);}
+
+/* Book Card */
+#book-card {
+  background-color: var(--card);
+  margin: 20px 0;
+  box-shadow: var(--shadow);
+  height: 500px;
+}
+
+.book-img { height: 350px; }
+
+.card-title {
+  text-decoration: var(--decoration);
+  text-align: var(--alignment);
+}
+
+#bookCard-btn {
+  position: absolute;
+  bottom: 20px;
+}
+
+#book-btn { background-color: var(--button-primary); }
+
+#author-btn { 
+  background-color: var(--button-secondary);
+  position: absolute;
+  left: 130px;
+}
+
+/* Book View */
+.book-poster {
+  width: var(--img-width);
+  float: left;
+  margin-right: 30px;
+}
+
+.author-link {
+  color: var(--link);
+  text-decoration: none;
+}
+
+.author-link:hover {
+  color: var(--link);
+  text-decoration: var(--decoration);
+}
+
+#add-btn, #remove-btn { background-color: var(--button-primary); }
+
+#bookBack-btn {
+  background-color: var(--button-secondary);
+  float: right;
+}
+
+/*Book List COMING SOON
+#app-title {
+  text-align: var(--alignment);
+  text-decoration: var(--decoration);
+  margin-top: 10px;
+}
+*/
+
+/* Login View */
+#login-card {
+  background-color: var(--card);
+  margin-top: 50px;
+  box-shadow: var(--shadow);
+}
+
+.login-title {
+  font-size: 28px;
+  text-align: var(--alignment);
+}
+
+/* Also in Registration View */
+#form-group { margin-top: 10px; }
+
+.user-input { background-color: var(--input-field); }
+
+#login-btn, #register-btn { margin-top: 20px; }
+
+#register-btn { background-color: var(--button-primary); }
+
+#login-btn {
+  float: right;
+  background-color: var(--button-secondary);
+}
+
+/* NavBar */
+.navigation-bar{ background-color: var(--navbar); }
+
+#logout, #signup { color: var(--link); }
+
+/* Profile View */
+.profile-info {
+  margin-top: 30px;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.favorite-books { margin-top: 30px; }
+
+#info-card, #update-card, #favorite-card {
+  background-color: var(--card);
+  box-shadow: var(--shadow);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+#delete-btn, #update-btn, #favorite-btn { background-color: var(--button-primary); }
+
+#update-btn { margin-top: 15px; }
+
+.update-label { margin-top: 5px; }
+
+.update-info { background-color: var(--input-field); }
+
+.favorite-poster { height: 500px; }
+
+#remove-btn {
+  background-color: var(--button-secondary);
+  float: right;
 }
+
+/* Registration View */
+#registration-card {
+  background-color: var(--card);
+  margin-top: 30px;
+  box-shadow: var(--shadow);
+}
+
+.notice { text-align: var(--alignment); }
+
+.registration-title {
+  font-size: 28px;
+  text-align: var(--alignment);
+  text-decoration: var(--decoration);
+}
+
+#submit-btn, #back-btn { margin-top: 20px; }
+
+#back-btn { background-color: var(--button-primary); }
+
+#submit-btn {
+  float: right;
+  background-color: var(--button-secondary);
+}
+
+/* Visibility Filter COMING SOON 
+#search-form {
+  background-color: #F2F4FC;
+  box-shadow: var(--shadow);
+  margin: 10px auto 20px;
+  text-align: var(--center);
+  width: 50%;
+}
+*/
