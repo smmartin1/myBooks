@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 export function BookCard({ book }) {    
     return (
         <Card id="book-card">
-            <Card.Img className="book-img" crossOrigin="anonymous" variant="top" src={book.ImagePath} />
+            <Card.Img alt="cover of book" className="book-img" crossOrigin="anonymous" variant="top" src={book.ImagePath} />
             <Card.Body>
                 <Card.Title className="card-title">{book.Title}</Card.Title>
 

@@ -25,7 +25,7 @@ export class AuthorView extends React.Component{
                         <h2>{author.Name}</h2>
                     </div>
                     <div>
-                        <img className="author-img" crossOrigin="anonymous" src={author.ImageURL} />
+                        <img alt="author" className="author-img" crossOrigin="anonymous" src={author.ImageURL} />
                     </div>
                     <div className="author-bio">
                         <p><b>Bio</b>: {author.Bio}</p>
@@ -44,7 +44,7 @@ export class AuthorView extends React.Component{
                         <h2>{author.Name}</h2>
                     </div>
                     <div>
-                        <img className="author-img" crossOrigin="anonymous" src={author.ImageURL} />
+                        <img alt="author" className="author-img" crossOrigin="anonymous" src={author.ImageURL} />
                     </div>
                     <div className="author-bio">
                         <p><b>Bio</b>: {author.Bio}</p>

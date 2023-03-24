@@ -86,7 +86,7 @@ export class BookView extends React.Component {
                     </div>
 
                     <div>
-                        <img className="book-poster" crossOrigin="anonymous" src={book.ImagePath} />
+                        <img alt="cover of book" className="book-poster" crossOrigin="anonymous" src={book.ImagePath} />
                     </div>
                     
                     <div className="book-description">
@@ -127,7 +127,7 @@ export class BookView extends React.Component {
                     </div>
 
                     <div>
-                        <img className="book-poster" crossOrigin="anonymous" src={book.ImagePath} />
+                        <img alt="cover of book" className="book-poster" crossOrigin="anonymous" src={book.ImagePath} />
                     </div>
 
                     <div className="book-description">
