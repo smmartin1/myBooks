@@ -28,31 +28,30 @@ export function ProfileView(props) {
     const removeUser = () => {
         const token = localStorage.getItem('token');
         const user = localStorage.getItem('user');
+        
         axios.delete(`https://mighty-falls-90534.herokuapp.com/users/${user}`, {
           headers: { Authorization: `Bearer ${token}`}
-        })
-        .then((response) => {
+        }).then((response) => {
           alert('User has been deleted from the app');
           console.log(response.data);
           localStorage.removeItem('token');
           localStorage.removeItem('user');
           window.open('/', '_self');
-        })
-        .catch(function (error) {
+        }).catch(function (error) {
             console.log(error);
         });
     }
 
     return (
         <Container>
-            <Row>
+            <Row className="profile-info">
                 <Col md={4}>
-                    <Card>
-                        <Card.Body id="info-card">
+                    <Card id="info-card">
+                        <Card.Body>
                         <Card.Title>Your Info</Card.Title>
-                        <Card.Text>Username: {user.Username}</Card.Text>
-                        <Card.Text>Email: {user.Email}</Card.Text>
-                        <Button type="secondary" id="delete-button" onClick={() => removeUser(user.Username)}>Delete Your Account</Button>
+                        <Card.Text><b>Username</b>: {user.Username}</Card.Text>
+                        <Card.Text><b>Email</b>: {user.Email}</Card.Text>
+                        <Button type="secondary" id="delete-btn" onClick={() => removeUser(user.Username)}>Delete Your Account</Button>
                         </Card.Body>
                     </Card>
                 </Col>
@@ -64,7 +63,7 @@ export function ProfileView(props) {
 
             <Row>
                 <Col>
-                    <h2>Favorite Books</h2>
+                    <h2 className="favorite-books">Favorite Books</h2>
                 </Col>
             </Row>
 
