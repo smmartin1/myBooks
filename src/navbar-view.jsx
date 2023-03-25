@@ -27,7 +27,7 @@ export function NavbarView({user}) {
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ml-auto">
             {isAuth() && (
-              <Nav.Link id="user-name" href={`/users/${user}`}>{user}</Nav.Link>
+              <Nav.Link id="user-name" href="/profile">{user}</Nav.Link>
             )}
             {isAuth() && (
               <Button variant="link" id="logout" onClick={onLoggedOut}>Logout</Button>

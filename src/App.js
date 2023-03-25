@@ -99,7 +99,7 @@ class App extends Component {
               </Col>
             }} />
 
-            <Route path={`/users/${user}`} render={({ history }) => {
+            <Route path="/profile" render={({ history }) => {
               return <Col>
                   <ProfileView
                       user={user}
