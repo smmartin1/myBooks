@@ -1,49 +1,65 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Card, Container, Row, Col, Button } from 'react-bootstrap';
-import { FavoriteBooks } from './favorite-books';
-import { UpdateUser } from './update-user';
+import React, { useState } from 'react';
+import { Card, Row, Col, Button, Form } from 'react-bootstrap';
+import { BookCard } from './book-card';
 
-export function ProfileView(props) {
-    const [user, setUser] = useState(props.user);
-    const [favoriteBooks, setFavoriteBooks] = useState([]);
+export function ProfileView({user, token, books, onLoggedOut, updateUser}) {
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("");
 
-    useEffect(() => {getUser()}, [])
+    let favoriteBooks = books.filter(book => user.favoriteBooks.includes(book.id));
 
-    const getUser = () => {
-        const token = localStorage.getItem('token');
-        const user = localStorage.getItem('user');
+    const handleSubmit = e => {
+        e.preventDefault();
 
-        axios.get(`https://mighty-falls-90534.herokuapp.com/users/${user}`, {
-            headers: { Authorization: `Bearer ${token}` }
-        }).then((response) => {
-            setUser(response.data)
-            setFavoriteBooks(response.data.FavoriteBooks)
-            console.log(response.data)
-        }).catch(function (error) {
-            console.log(error);
+        const data = {
+            username,
+            password,
+            email
+        }
+
+        fetch(`https://mighty-falls-90534.herokuapp.com/users/${user.username}`, {
+            method: 'PUT',
+            body: JSON.stringify(data),
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        }).then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                alert("Update failed. Try again.");
+                return false;
+            }
+        }).then(user => {
+            if (user) {
+                alert("Successfully updated account");
+                updateUser(user);
+            }
+        }).catch(e => {
+            console.log(e);
         });
     }
 
     const removeUser = () => {
-        const token = localStorage.getItem('token');
-        const user = localStorage.getItem('user');
-        
-        axios.delete(`https://mighty-falls-90534.herokuapp.com/users/${user}`, {
-          headers: { Authorization: `Bearer ${token}`}
+        fetch(`https://mighty-falls-90534.herokuapp.com/users/${user}`, {
+            method: 'DELETE',
+            headers: { Authorization: `Bearer ${token}`}
         }).then((response) => {
-          alert('User has been deleted from the app');
-          console.log(response.data);
-          localStorage.removeItem('token');
-          localStorage.removeItem('user');
-          window.open('/', '_self');
-        }).catch(function (error) {
-            console.log(error);
+            if (response.ok) {
+                alert('You have been deleted from the app');
+                onLoggedOut();
+            } else {
+                alert("Unable to delete account");
+            }
+        }).catch(e => {
+            console.log(e);
         });
     }
 
     return (
-        <Container>
+        <>
             <Row className="profile-info">
                 <Col md={4}>
                     <Card id="info-card">
@@ -57,7 +73,53 @@ export function ProfileView(props) {
                 </Col>
 
                 <Col xs={10} sm={6}>
-                    <UpdateUser user={user} />
+                    <Card id="update-card">
+                        <Card.Body>
+                            <Card.Title>Update Info</Card.Title>
+                            
+                            <Form className='update-form' onSubmit={handleSubmit}>
+                                <Form.Group>
+                                <Form.Label>Username:</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="Username"
+                                    className="update-input"
+                                    defaultValue={username}
+                                    minlength="2"
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    placeholder="Username"
+                                />
+                                </Form.Group>
+
+                                <Form.Group>
+                                <Form.Label className="update-label">Password:</Form.Label>
+                                <Form.Control
+                                    type="password"
+                                    name="Password"
+                                    className="update-input"
+                                    defaultValue={password}
+                                    minlength="6"
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    placeholder="Password"
+                                />
+                                </Form.Group>
+
+                                <Form.Group>
+                                <Form.Label className="update-label">Email:</Form.Label>
+                                <Form.Control
+                                    type="email"
+                                    name="Email"
+                                    className="update-input"
+                                    defaultValue={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    placeholder="Email"
+                                />
+                                </Form.Group>
+
+                                <Button type="submit" id="update-btn">Update</Button>
+                            </Form>
+                        </Card.Body>
+                    </Card>
                 </Col>
             </Row>
 
@@ -68,11 +130,12 @@ export function ProfileView(props) {
             </Row>
 
             <Row>
-                <FavoriteBooks
-                    books={ props.book }
-                    favoriteBooks={ favoriteBooks }
-                />
+                {favoriteBooks.map(book => (
+                    <Col md={3} key={book._id}>
+                        <BookCard book={book} />
+                    </Col>
+                ))}
             </Row>
-        </Container>
+        </>
     )
 }

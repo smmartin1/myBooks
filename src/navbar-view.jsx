@@ -1,42 +1,26 @@
 import React from 'react';
-import { Navbar, Container, Nav, Button } from 'react-bootstrap';
+import { Navbar, Container, Nav } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
-export function NavbarView({user}) {
-  const onLoggedOut = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    window.open('/', '_self');
-  }
-
-  const isAuth = () => {
-    if(typeof window == 'undefined') {
-      return false;
-    }
-    if (localStorage.getItem('token')) {
-      return localStorage.getItem('token');
-    } else {
-      return false;
-    }
-  };
-
+export function NavbarView({user, onLoggedOut}) {
   return (
     <Navbar className="navigation-bar" sticky="top">
       <Container>
-        <Navbar.Brand className="navbar-logo" href="/">MyBooks</Navbar.Brand>
+        <Navbar.Brand className="navbar-logo" as={Link} to="/">MyBooks</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ml-auto">
-            {isAuth() && (
-              <Nav.Link id="user-name" href="/profile">{user}</Nav.Link>
+            {!user && (
+              <>
+                <Nav.Link id="sign-in" as={Link} to="/">Sign In</Nav.Link>
+                <Nav.Link id="sign-up" as={Link} to="/register">Sign Up</Nav.Link>
+              </>
             )}
-            {isAuth() && (
-              <Button variant="link" id="logout" onClick={onLoggedOut}>Logout</Button>
-            )}
-            {!isAuth() && (
-              <Nav.Link id="sign-in" href="/">Sign In</Nav.Link>
-            )}
-            {!isAuth() && (
-              <Nav.Link id="sign-up" href={'/register'}>Sign Up</Nav.Link>
+            {user && (
+              <>
+                <Nav.Link id="user-name" as={Link} to="/profile">{user}</Nav.Link>
+                <Nav.Link id="logout" onClick={onLoggedOut}>Logout</Nav.Link>
+              </>
             )}
           </Nav>
         </Navbar.Collapse>

@@ -3,9 +3,36 @@ import axios from 'axios';
 import { Form, Button, Card, CardGroup, Container, Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-export function LoginView(props) {
+export const LoginView = ({onLoggedIn}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  /*
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const data = {username, password};
+
+    fetch('https://mighty-falls-90534.herokuapp.com/login', {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    }).then(response => response.json())
+    .then(data => {
+      if (data.user) {
+        localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("token", data.token);
+        onLoggedIn(data.user, data.token);
+      } else {
+        alert("Something went wrong");
+      }
+    }).catch((error) => {
+      console.log('User does not exist');
+      console.log(error);
+      alert('Username or password is incorrect');
+    })
+  };
+  */
 
   const validate = () => {
     let isReq = true;
@@ -33,14 +60,14 @@ export function LoginView(props) {
         Password: password
       }).then(response => {
         const data = response.data;
-        props.onLoggedIn(data);
+        onLoggedIn(data);
       }).catch(e => {
         console.log('User does not exist');
         alert('Username or password is incorrect');
       });
     }
   };
-
+  
   return (
     <Container>
       <Row>

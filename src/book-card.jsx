@@ -6,16 +6,16 @@ import { Link } from 'react-router-dom';
 export function BookCard({ book }) {    
     return (
         <Card id="book-card">
-            <Card.Img alt="cover of book" className="book-img" crossOrigin="anonymous" variant="top" src={book.ImagePath} />
+            <Card.Img alt="cover of book" className="book-img" crossOrigin="anonymous" variant="top" src={book.bookimage} />
             <Card.Body>
-                <Card.Title className="card-title">{book.Title}</Card.Title>
+                <Card.Title className="card-title">{book.title}</Card.Title>
 
                 <div id="bookCard-btn">
-                    <Link to={`/books/${book._id}`}>
+                    <Link to={`/books/${encodeURIComponent(book.id)}`}>
                         <Button id="book-btn" variant="primary">Open</Button>
                     </Link>
 
-                    <Link to={`/authors/${book.Author.Name}`}>
+                    <Link to={`/authors/${encodeURIComponent(book.author)}`}>
                         <Button id="author-btn" variant="primary">Author</Button>
                     </Link>
                 </div>
@@ -26,10 +26,7 @@ export function BookCard({ book }) {
 
 BookCard.propTypes = {
     book: PropTypes.shape({
-        Title: PropTypes.string.isRequired,
-        Author: PropTypes.shape({
-            Name: PropTypes.string.isRequired
-        }),
-        _id: PropTypes.string
+        title: PropTypes.string.isRequired,
+        author: PropTypes.string.isRequired
     }).isRequired
 };

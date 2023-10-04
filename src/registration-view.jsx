@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { Container, Row, Col, Form, Button, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 
-export function RegistrationView(props) {
+export const RegistrationView = () => {
   const [ username, setUsername ] = useState('');
   const [ password, setPassword ] = useState('');
   const [ email, setEmail ] = useState('');
@@ -68,6 +68,30 @@ export function RegistrationView(props) {
       });
     }
   };
+  
+  /*
+  const handleRegister = (e) => {
+    e.preventDefault();
+
+    axios.post("https://mighty-falls-90534.herokuapp.com/users", {
+      Username: username,
+      Password: password,
+      Email: email,
+      Birthday: birthday
+    }).then(response => {
+      if (response.ok) {
+        console.log(response.data);
+        alert('Welcome to myBooks!');
+        window.open('/', '_self');
+      } else {
+        console.log('Error registering the user');
+        alert("Registration failed. Try again.");
+      }
+    }).catch(e => {
+      console.log(e);
+    });
+  };
+  */
 
   return (
     <Container>
@@ -122,7 +146,7 @@ export function RegistrationView(props) {
                   <Button type="submit" id="back-btn">Back</Button>
                 </Link>
 
-                <Button type="submit" id="submit-btn" onClick={handleRegister}>Submit</Button>
+                <Button type="submit" id="submit-btn">Submit</Button>
               </Form>
             </Card.Body>
           </Card>
